@@ -15,6 +15,8 @@ import reusable.BaseCode;
 import reusable.ReadExcel;
 import java.io.IOException;
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class StepDefinition extends BaseCode {
@@ -35,33 +37,32 @@ public class StepDefinition extends BaseCode {
     public void userClicksTheLoginButton() throws InterruptedException {
         driver.findElement(By.id("login-button")).click();
 
-        
+
     }
 
     @Then("user validates error message")
     public void userValidatesErrorMessage() {
-       String s= driver.findElement(By.xpath("//div[@class=\"error-message-container error\"]//h3")).getText();
+        String s = driver.findElement(By.xpath("//div[@class=\"error-message-container error\"]//h3")).getText();
         System.out.println(s);
     }
 
     @Then("validate page title")
     public void validatePageTitle() {
-        System.out.println("page title : "+driver.getTitle());
+        System.out.println("page title : " + driver.getTitle());
     }
 
     @And("sort with Condition")
     public void sortWithCon() {
         WebElement w = driver.findElement(By.className("product_sort_container"));
-        int siz=w.findElements(By.tagName("option")).size();
-        int i=siz-1;
-        String t="Price (low to high)";
-        while(i>=0)
-        {
-           String r= w.findElements(By.tagName("option")).get(i).getText();
-          if(t.equals(r)){
-              System.out.println("pass at "+i);
-          }
-          i--;
+        int siz = w.findElements(By.tagName("option")).size();
+        int i = siz - 1;
+        String t = "Price (low to high)";
+        while (i >= 0) {
+            String r = w.findElements(By.tagName("option")).get(i).getText();
+            if (t.equals(r)) {
+                System.out.println("pass at " + i);
+            }
+            i--;
 
 
         }
@@ -78,8 +79,8 @@ public class StepDefinition extends BaseCode {
         WebElement w = driver.findElement(By.xpath("//table[@class=\"wikitable\"]"));
         int c = w.findElements(By.tagName("th")).size();
         int d = w.findElements(By.tagName("tr")).size();
-        System.out.println(c+"and"+d);
-        for (int i = 0; i <d; i++) {
+        System.out.println(c + "and" + d);
+        for (int i = 0; i < d; i++) {
             String v = w.findElements(By.tagName("tr")).get(i).getText();
             System.out.println(v);
         }
@@ -89,32 +90,32 @@ public class StepDefinition extends BaseCode {
 
     @Given("mouse hover")
     public void mouseHover() throws InterruptedException {
-       Actions ac =new Actions(driver);
-       WebElement wb = driver.findElement(By.xpath("//div[@class=\"dropdown\"]"));
-       ac.clickAndHold(wb).build().perform();
+        Actions ac = new Actions(driver);
+        WebElement wb = driver.findElement(By.xpath("//div[@class=\"dropdown\"]"));
+        ac.clickAndHold(wb).build().perform();
 
     }
 
     @Given("drag and drop")
     public void dragAndDrop() {
-        Actions as =new Actions(driver);
-        WebElement drag=driver.findElement(By.xpath("//img[@id=\"dragA\"]"));
-        WebElement drop=driver.findElement(By.xpath("//div[@id=\"dropBox\"]"));
-        as.dragAndDrop(drag,drop).build().perform();
+        Actions as = new Actions(driver);
+        WebElement drag = driver.findElement(By.xpath("//img[@id=\"dragA\"]"));
+        WebElement drop = driver.findElement(By.xpath("//div[@id=\"dropBox\"]"));
+        as.dragAndDrop(drag, drop).build().perform();
     }
 
     @Given("drag and drop frame")
     public void dragAndDropFrame() throws InterruptedException {
-        Actions as =new Actions(driver);
-        WebElement frame=driver.findElement(By.xpath("//iframe"));
+        Actions as = new Actions(driver);
+        WebElement frame = driver.findElement(By.xpath("//iframe"));
         driver.switchTo().frame(frame);
         driver.findElement(By.xpath("//button[@id=\"btnAlert\"]")).click();
     }
 
     @When("user enter username and password by excel")
     public void userEnterUsernameAndPasswordByExcel(String sheet, int row, int col) throws IOException {
-        driver.findElement(By.cssSelector("input[id='user-name'])")).sendKeys(ReadExcel.getSheet("login",0,0));
-        driver.findElement(By.cssSelector("input[id='password'])")).sendKeys(ReadExcel.getSheet("login",0,1));
+        driver.findElement(By.cssSelector("input[id='user-name'])")).sendKeys(ReadExcel.getSheet("login", 0, 0));
+        driver.findElement(By.cssSelector("input[id='password'])")).sendKeys(ReadExcel.getSheet("login", 0, 1));
     }
 
     @Given("click the button to display an alert")
@@ -128,23 +129,23 @@ public class StepDefinition extends BaseCode {
     @Given("click the button to display a confirm")
     public void clickTheButtonToDisplayAConfirm() {
         driver.findElement(By.xpath("//button[@class=\"btn btn-primary\"]")).click();
-        String s1=  driver.switchTo().alert().getText();
+        String s1 = driver.switchTo().alert().getText();
         System.out.println(s1);
         driver.switchTo().alert().dismiss();
-        String s2= driver.findElement(By.cssSelector("#demo")).getText();
+        String s2 = driver.findElement(By.cssSelector("#demo")).getText();
         System.out.println(s2);
     }
 
     @Given("click the button to display the prompt box")
     public void clickTheButtonToDisplayThePromptBox() {
         driver.findElement(By.xpath("//button[@class=\"btn btn-info\"]")).click();
-        String s1=  driver.switchTo().alert().getText();
+        String s1 = driver.switchTo().alert().getText();
         System.out.println(s1);
         driver.switchTo().alert().sendKeys("sravanth");
         driver.switchTo().alert().accept();
 
-        String s2= driver.findElement(By.cssSelector("#demo1")).getText();
-        Assert.assertEquals("You Entered sravanth",s2);
+        String s2 = driver.findElement(By.cssSelector("#demo1")).getText();
+        Assert.assertEquals("You Entered sravanth", s2);
         System.out.println(s2);
     }
 
@@ -169,7 +170,7 @@ public class StepDefinition extends BaseCode {
         driver.findElement(By.cssSelector("#enable_btn")).click();
         WebDriverWait w = new WebDriverWait(driver, Duration.ofSeconds(12));
         w.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@disabled=\"false\"]")));
-        String s=driver.findElement(By.xpath("//button[@disabled=\"false\"]")).getText();
+        String s = driver.findElement(By.xpath("//button[@disabled=\"false\"]")).getText();
         System.out.println(s);
 
 
@@ -180,7 +181,7 @@ public class StepDefinition extends BaseCode {
         driver.findElement(By.xpath("//button[@id='quote']")).click();
         WebDriverWait w = new WebDriverWait(driver, Duration.ofSeconds(10));
         w.until(ExpectedConditions.textToBe(By.cssSelector("#change_text"), "Hello, Learn More Aspirants"));
-        String s=driver.findElement(By.xpath("//button[@id='quote']")).getText();
+        String s = driver.findElement(By.xpath("//button[@id='quote']")).getText();
         System.out.println(s);
 
     }
@@ -191,7 +192,22 @@ public class StepDefinition extends BaseCode {
         WebDriverWait w = new WebDriverWait(driver, Duration.ofSeconds(7));
         w.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@id='hidden']")));
         driver.findElement(By.xpath("//button[@id='hidden']")).isDisplayed();
-        String s=driver.findElement(By.xpath("//button[@id='hidden']")).getText();
+        String s = driver.findElement(By.xpath("//button[@id='hidden']")).getText();
         System.out.println(s);
+    }
+
+    @Given("table data retrieve")
+    public void tableDataRetrieve() {
+        Map<String, String> m = new HashMap<String, String>();
+        int count = driver.findElements(By.xpath("//table[@class=\"infobox ib-region-symbols\"]/child::tbody/child::tr/child::td")).size();
+        for (int i = 0; i < count; i++) {
+            String a = driver.findElements(By.xpath("//table[@class=\"infobox ib-region-symbols\"]/child::tbody/child::tr/child::th")).get(i).getText();
+            String b = driver.findElements(By.xpath("//table[@class=\"infobox ib-region-symbols\"]/child::tbody/child::tr/child::td")).get(i).getText();
+            m.put(a, b);
+
+        }
+        for (Map.Entry e : m.entrySet()) {
+            System.out.println(e);
+        }
     }
 }

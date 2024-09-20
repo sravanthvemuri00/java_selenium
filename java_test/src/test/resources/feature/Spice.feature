@@ -46,3 +46,7 @@ Feature: validating spice jet
   @SP12
   Scenario: validate explicit Button will be displayed in
     Given Button will be displayed in five
+
+  @SP13
+  Scenario: validate table data
+    Given table data retrieve
